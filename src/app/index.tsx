@@ -14,6 +14,11 @@ export default function Index() {
       <Text style={{ fontSize: 30 }}>Hello, World</Text>
 
       <Button title="Target" onPress={() => router.navigate("/target")} />
+
+      <Button
+        title="Transação"
+        onPress={() => router.navigate("/transaction/30")}
+      />
     </View>
   );
 }
