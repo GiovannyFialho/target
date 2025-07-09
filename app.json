@@ -2,6 +2,7 @@
   "expo": {
     "name": "target",
     "slug": "target",
+    "scheme": "target",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/ios-icon.png",
@@ -26,6 +27,7 @@
     },
     "web": {
       "favicon": "./src/assets/ios-icon.png"
-    }
+    },
+    "plugins": ["expo-router"]
   }
 }
