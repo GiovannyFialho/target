@@ -6,7 +6,7 @@ import { colors } from "@/theme/colors";
 export function App() {
   return (
     <View style={styles.container}>
-      <StatusBar />
+      <StatusBar style="light" />
 
       <Text
         style={{ fontSize: 30, color: colors.gray[100], fontWeight: "700" }}
