@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { Button, Text, View } from "react-native";
 
-export default function Index() {
+export default function Target() {
   return (
     <View
       style={{
@@ -11,9 +11,9 @@ export default function Index() {
         backgroundColor: "#fff",
       }}
     >
-      <Text style={{ fontSize: 30 }}>Hello, World</Text>
+      <Text style={{ fontSize: 30 }}>Target</Text>
 
-      <Button title="Target" onPress={() => router.navigate("/target")} />
+      <Button title="Voltar" onPress={() => router.back()} />
     </View>
   );
 }
