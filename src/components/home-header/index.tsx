@@ -4,12 +4,14 @@ import { Text, View } from "react-native";
 import { colors } from "@/theme";
 
 import { Separator } from "@/components/separator";
-import { Summary } from "@/components/summary";
+import { Summary, type SummaryProps } from "@/components/summary";
 
 import { styles } from "@/components/home-header/styles";
 
 export type HomeHeaderProps = {
   total: string;
+  input: SummaryProps;
+  output: SummaryProps;
 };
 
 type Props = {
@@ -31,12 +33,12 @@ export function HomeHeader({ data }: Props) {
 
       <View style={styles.summary}>
         <Summary
-          data={{ label: "Entradas", value: "R$6.184,90" }}
+          data={data.input}
           icon={{ name: "arrow-upward", color: colors.green[500] }}
         />
 
         <Summary
-          data={{ label: "Saídas", value: "-R$883,65" }}
+          data={data.output}
           icon={{ name: "arrow-downward", color: colors.red[400] }}
           isLeft
         />
