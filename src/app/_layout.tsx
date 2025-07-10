@@ -6,7 +6,7 @@ import {
 } from "@expo-google-fonts/inter";
 import { Stack } from "expo-router";
 
-import { colors } from "@/theme/colors";
+import { colors } from "@/theme";
 
 import { Loading } from "@/components/loading";
 
