@@ -1,6 +1,8 @@
 import { router } from "expo-router";
 import { Button, Text, View } from "react-native";
 
+import { fontFamily } from "@/theme/fontFamily";
+
 export default function Index() {
   return (
     <View
@@ -11,7 +13,9 @@ export default function Index() {
         backgroundColor: "#fff",
       }}
     >
-      <Text style={{ fontSize: 30 }}>Hello, World</Text>
+      <Text style={{ fontSize: 30, fontFamily: fontFamily.bold }}>
+        Hello, World
+      </Text>
 
       <Button title="Target" onPress={() => router.navigate("/target")} />
 
