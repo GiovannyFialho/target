@@ -8,6 +8,8 @@ import { Stack } from "expo-router";
 
 import { colors } from "@/theme/colors";
 
+import { Loading } from "@/components/loading";
+
 export default function Layout() {
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
@@ -16,7 +18,7 @@ export default function Layout() {
   });
 
   if (!fontsLoaded) {
-    return;
+    return <Loading />;
   }
 
   return (
