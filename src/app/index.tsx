@@ -1,33 +1,15 @@
-import { router } from "expo-router";
-import { Button, Text, View } from "react-native";
+import { View } from "react-native";
 
-import { fontFamily } from "@/theme/fontFamily";
+import { HomeHeader } from "@/components/home-header";
 
 export default function Index() {
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#fff",
       }}
     >
-      <Text style={{ fontSize: 30, fontFamily: fontFamily.bold }}>
-        Hello, World
-      </Text>
-
-      <Button title="Target" onPress={() => router.navigate("/target")} />
-
-      <Button
-        title="Transação"
-        onPress={() => router.navigate("/transaction/30")}
-      />
-
-      <Button
-        title="Progresso"
-        onPress={() => router.navigate("/in-progress/10")}
-      />
+      <HomeHeader />
     </View>
   );
 }
