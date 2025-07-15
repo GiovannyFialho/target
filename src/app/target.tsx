@@ -1,17 +1,22 @@
 import { router } from "expo-router";
-import { Button, Text, View } from "react-native";
+import { Button, StatusBar, View } from "react-native";
+
+import { PageHeader } from "@/components/page-header";
 
 export default function Target() {
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#fff",
+        padding: 24,
       }}
     >
-      <Text style={{ fontSize: 30 }}>Target</Text>
+      <StatusBar barStyle="dark-content" />
+
+      <PageHeader
+        title="Meta"
+        subtitle="Economize para alcançar sua meta financeira."
+      />
 
       <Button title="Voltar" onPress={() => router.back()} />
     </View>
