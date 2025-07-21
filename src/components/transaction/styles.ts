@@ -4,10 +4,10 @@ import { colors, fontFamily } from "@/theme";
 
 export const styles = StyleSheet.create({
   container: {
-    height: 72,
     flexDirection: "row",
     alignItems: "center",
     gap: 7,
+    paddingVertical: 16,
   },
   info: {
     flex: 1,
