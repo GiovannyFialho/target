@@ -45,12 +45,10 @@ export default function Index() {
   async function fetchTargets() {
     try {
       const response = await targetDatabase.listBySavedValue();
-
       console.log(response);
     } catch (error) {
-      console.log(`Error: ${error}`);
-
-      Alert.alert("Error", "Não foi possível retornar os erros");
+      Alert.alert("Erro", "Não foi possível carregar as metas.");
+      console.log(error);
     }
   }
 
