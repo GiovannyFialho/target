@@ -9,7 +9,7 @@ import {
 import { styles } from "@/components/target/styles";
 
 export type TargetProps = {
-  id?: string;
+  id: string;
   name: string;
   percentage: string;
   current: string;
