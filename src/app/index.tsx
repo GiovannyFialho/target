@@ -1,10 +1,13 @@
-import { router } from "expo-router";
-import { StatusBar, View } from "react-native";
+import { router, useFocusEffect } from "expo-router";
+import { Alert, StatusBar, View } from "react-native";
+
+import { useTargetDatabase } from "@/database/useTargetDatabase";
 
 import { Button } from "@/components/button";
 import { HomeHeader } from "@/components/home-header";
 import { List } from "@/components/list";
 import { Target } from "@/components/target";
+import { useCallback } from "react";
 
 const summary = {
   total: "R$2.680,00",
@@ -37,6 +40,26 @@ const targets = [
 ];
 
 export default function Index() {
+  const targetDatabase = useTargetDatabase();
+
+  async function fetchTargets() {
+    try {
+      const response = await targetDatabase.listBySavedValue();
+
+      console.log(response);
+    } catch (error) {
+      console.log(`Error: ${error}`);
+
+      Alert.alert("Error", "Não foi possível retornar os erros");
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchTargets();
+    }, [])
+  );
+
   return (
     <View
       style={{
