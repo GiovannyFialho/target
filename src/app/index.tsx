@@ -1,4 +1,5 @@
 import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { Alert, StatusBar, View } from "react-native";
 
 import { useTargetDatabase } from "@/database/useTargetDatabase";
@@ -10,7 +11,6 @@ import { HomeHeader } from "@/components/home-header";
 import { List } from "@/components/list";
 import { Loading } from "@/components/loading";
 import { Target, TargetProps } from "@/components/target";
-import { useCallback, useState } from "react";
 
 const summary = {
   total: "R$2.680,00",
@@ -37,7 +37,7 @@ export default function Index() {
       }));
     } catch (error) {
       Alert.alert("Erro", "Não foi possível carregar as metas.");
-      console.log(error);
+      console.log(`Error: ${error}`);
 
       return [];
     }

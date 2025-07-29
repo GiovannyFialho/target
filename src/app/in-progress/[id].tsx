@@ -4,15 +4,15 @@ import { Alert, StatusBar, View } from "react-native";
 
 import { useTargetDatabase } from "@/database/useTargetDatabase";
 
+import { numberToCurrency } from "@/utils/number-to-currency";
 import { TransactionTypes } from "@/utils/transaction-types";
 
 import { Button } from "@/components/button";
 import { List } from "@/components/list";
+import { Loading } from "@/components/loading";
 import { PageHeader } from "@/components/page-header";
 import { Progress } from "@/components/progress";
 import { type TransactionProps, Transaction } from "@/components/transaction";
-import { Loading } from "../../components/loading";
-import { numberToCurrency } from "../../utils/number-to-currency";
 
 const transactions: TransactionProps[] = [
   {
@@ -30,7 +30,7 @@ const transactions: TransactionProps[] = [
   },
 ];
 
-type TargetDetails = {
+export type TargetDetails = {
   name: string;
   current: string;
   target: string;
@@ -64,11 +64,9 @@ export default function InProgress() {
         target: numberToCurrency(response.amount),
         percentage: response.percentage,
       });
-
-      console.log({ response });
     } catch (error) {
       Alert.alert("Erro", "Não foi possível carregar os detalhes da meta");
-      console.log({ error });
+      console.log(`Error: ${error}`);
     }
   }
 
@@ -104,7 +102,7 @@ export default function InProgress() {
         title={details.name}
         rightButton={{
           icon: "edit",
-          onPress: () => {},
+          onPress: () => router.navigate(`/target?id=${params.id}`),
         }}
       />
 
