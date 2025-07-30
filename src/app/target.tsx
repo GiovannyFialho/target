@@ -46,7 +46,7 @@ export default function Target() {
       Alert.alert("Sucesso", "Meta atualizada com sucesso", [
         {
           text: "Ok",
-          onPress: () => router.back(),
+          onPress: router.back,
         },
       ]);
     } catch (error) {
@@ -66,7 +66,7 @@ export default function Target() {
       Alert.alert("Nova meta", "Meta criada com sucesso!", [
         {
           text: "Ok",
-          onPress: () => router.back(),
+          onPress: router.back,
         },
       ]);
     } catch (error) {
