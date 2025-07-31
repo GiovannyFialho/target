@@ -3,9 +3,9 @@ import { useCallback, useState } from "react";
 import { Alert, StatusBar, View } from "react-native";
 
 import { useTargetDatabase } from "@/database/useTargetDatabase";
+import { useTransactionsDatabase } from "@/database/useTransactionsDatabase";
 
 import { numberToCurrency } from "@/utils/number-to-currency";
-import { TransactionTypes } from "@/utils/transaction-types";
 
 import { Button } from "@/components/button";
 import { List } from "@/components/list";
@@ -13,22 +13,8 @@ import { Loading } from "@/components/loading";
 import { PageHeader } from "@/components/page-header";
 import { Progress } from "@/components/progress";
 import { type TransactionProps, Transaction } from "@/components/transaction";
-
-const transactions: TransactionProps[] = [
-  {
-    id: "1",
-    value: "R$ 20,00",
-    date: "12/04/25",
-    type: TransactionTypes.Output,
-  },
-  {
-    id: "2",
-    value: "R$ 300,00",
-    date: "12/04/25",
-    description: "CDB de 110% no banco XPTO",
-    type: TransactionTypes.Input,
-  },
-];
+import dayjs from "dayjs";
+import { TransactionTypes } from "../../utils/transaction-types";
 
 export type TargetDetails = {
   name: string;
@@ -41,16 +27,40 @@ export default function InProgress() {
   const params = useLocalSearchParams<{ id: string }>();
 
   const targetDatabase = useTargetDatabase();
+  const transactionsDatabase = useTransactionsDatabase();
 
   const [isFetching, setIsFetching] = useState(true);
-  const [details, setDetails] = useState<TargetDetails>({
+  const [targetDetails, setTargetDetails] = useState<TargetDetails>({
     name: "",
     current: "R$ 0,00",
     target: "R$ 0,00",
     percentage: 0,
   });
+  const [transactions, setTransactions] = useState<TransactionProps[]>([]);
 
-  async function fetchDetails() {
+  async function fetchTransactions() {
+    try {
+      const response = await transactionsDatabase.listByTargetId(
+        Number(params.id)
+      );
+
+      setTransactions(
+        response.map((item) => ({
+          id: String(item.id),
+          value: numberToCurrency(item.amount),
+          date: dayjs(item.created_at).format("DD/MM/YYYY [às] HH:mm"),
+          description: item.observation,
+          type:
+            item.amount < 0 ? TransactionTypes.Output : TransactionTypes.Input,
+        }))
+      );
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível carregar as transações");
+      console.log(`Error: ${error}`);
+    }
+  }
+
+  async function fetchTargetDetails() {
     try {
       const response = await targetDatabase.show(Number(params.id));
 
@@ -58,7 +68,7 @@ export default function InProgress() {
         return;
       }
 
-      setDetails({
+      setTargetDetails({
         name: response.name,
         current: numberToCurrency(response.current),
         target: numberToCurrency(response.amount),
@@ -71,9 +81,10 @@ export default function InProgress() {
   }
 
   async function fetchData() {
-    const fetchDetailsPromise = fetchDetails();
+    const fetchTargetDetailsPromise = fetchTargetDetails();
+    const fetchTransactionsPromise = fetchTransactions();
 
-    await Promise.all([fetchDetailsPromise]);
+    await Promise.all([fetchTargetDetailsPromise, fetchTransactionsPromise]);
 
     setIsFetching(false);
   }
@@ -99,14 +110,14 @@ export default function InProgress() {
       <StatusBar barStyle="dark-content" />
 
       <PageHeader
-        title={details.name}
+        title={targetDetails.name}
         rightButton={{
           icon: "edit",
           onPress: () => router.navigate(`/target?id=${params.id}`),
         }}
       />
 
-      <Progress data={details} />
+      <Progress data={targetDetails} />
 
       <List
         title="Transações"
