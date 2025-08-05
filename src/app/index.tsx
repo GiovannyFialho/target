@@ -3,30 +3,50 @@ import { useCallback, useState } from "react";
 import { Alert, StatusBar, View } from "react-native";
 
 import { useTargetDatabase } from "@/database/useTargetDatabase";
+import { useTransactionsDatabase } from "@/database/useTransactionsDatabase";
 
 import { numberToCurrency } from "@/utils/number-to-currency";
 
 import { Button } from "@/components/button";
-import { HomeHeader } from "@/components/home-header";
+import { HomeHeader, type HomeHeaderProps } from "@/components/home-header";
 import { List } from "@/components/list";
 import { Loading } from "@/components/loading";
 import { Target, TargetProps } from "@/components/target";
 
-const summary = {
-  total: "R$2.680,00",
-  input: { label: "Entradas", value: "R$6.184,90" },
-  output: { label: "Saídas", value: "-R$883,65" },
-};
-
 export default function Index() {
   const [isFetching, setIsFetching] = useState(true);
   const [targets, setTargets] = useState<TargetProps[]>([]);
+  const [summary, setSummary] = useState<HomeHeaderProps>();
 
   const targetDatabase = useTargetDatabase();
+  const transactionsDatabase = useTransactionsDatabase();
+
+  async function fetchSummary(): Promise<HomeHeaderProps | undefined> {
+    try {
+      const response = await transactionsDatabase.summary();
+
+      return {
+        total: numberToCurrency(
+          (response?.input ?? 0) + (response?.output ?? 0)
+        ),
+        input: {
+          label: "Entradas",
+          value: numberToCurrency(response?.input ?? 0),
+        },
+        output: {
+          label: "Saídas",
+          value: numberToCurrency(response?.output ?? 0),
+        },
+      };
+    } catch (error) {
+      Alert.alert("Erro");
+      console.log(`Error: ${error}`);
+    }
+  }
 
   async function fetchTargets(): Promise<TargetProps[]> {
     try {
-      const response = await targetDatabase.listBySavedValue();
+      const response = await targetDatabase.listByClosestTarget();
 
       return response.map((item) => ({
         id: String(item.id),
@@ -45,10 +65,16 @@ export default function Index() {
 
   async function fetchData() {
     const targetDataPromise = fetchTargets();
+    const dataSummaryPromise = fetchSummary();
 
-    const [targetData] = await Promise.all([targetDataPromise]);
+    const [targetData, dataSummary] = await Promise.all([
+      targetDataPromise,
+      dataSummaryPromise,
+    ]);
 
     setTargets(targetData);
+    setSummary(dataSummary);
+
     setIsFetching(false);
   }
 
@@ -70,7 +96,7 @@ export default function Index() {
     >
       <StatusBar barStyle="light-content" />
 
-      <HomeHeader data={summary} />
+      {!summary ? <Loading /> : <HomeHeader data={summary} />}
 
       <List
         title="Metas"
