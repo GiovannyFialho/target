@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useCallback, useState } from "react";
 import { Alert, StatusBar, View } from "react-native";
@@ -6,6 +7,7 @@ import { useTargetDatabase } from "@/database/useTargetDatabase";
 import { useTransactionsDatabase } from "@/database/useTransactionsDatabase";
 
 import { numberToCurrency } from "@/utils/number-to-currency";
+import { TransactionTypes } from "@/utils/transaction-types";
 
 import { Button } from "@/components/button";
 import { List } from "@/components/list";
@@ -13,8 +15,6 @@ import { Loading } from "@/components/loading";
 import { PageHeader } from "@/components/page-header";
 import { Progress } from "@/components/progress";
 import { type TransactionProps, Transaction } from "@/components/transaction";
-import dayjs from "dayjs";
-import { TransactionTypes } from "../../utils/transaction-types";
 
 export type TargetDetails = {
   name: string;

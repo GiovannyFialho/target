@@ -4,7 +4,6 @@ import { colors } from "@/theme";
 import { TransactionTypes } from "@/utils/transaction-types";
 
 import { Option } from "@/components/transaction-type/option";
-
 import { styles } from "@/components/transaction-type/styles";
 
 type TransactionTypeProps = {

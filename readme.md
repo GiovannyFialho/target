@@ -41,11 +41,3 @@ npx expo start
 ```
 
 > ⚠️ This app is in the early stages of development. New features and improvements will be added in future updates.
-
-## 📌 Future Improvements
-
-- Notifications & reminders
-- Cloud sync / backup
-- Advanced analytics and charts
-- Multi-currency support
-- Security (PIN / biometric authentication)
