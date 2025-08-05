@@ -39,7 +39,7 @@ export default function Index() {
         },
       };
     } catch (error) {
-      Alert.alert("Erro");
+      Alert.alert("Erro", "Não foi possível carregar o resumo.");
       console.log(`Error: ${error}`);
     }
   }
